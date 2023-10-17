@@ -34,6 +34,7 @@ Creates a new user with given fields
   - Response Body (JSON):
     - **error** (string): Error message.
 
+![Screenshot 2023-10-18 at 4 04 00 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/1e531330-0b11-4019-81a8-2965537b444d)
 ---
 
 ### Login
@@ -61,6 +62,7 @@ Authenticates user and returns JWT access token
 - **401 Unauthorized**
   - Response Body (JSON):
     - **error** (string): Error message.
+![Screenshot 2023-10-18 at 4 05 18 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/2f2078bf-e41d-44d7-873f-acdda255bdad)
 
 ---
 
@@ -84,6 +86,7 @@ Sends an email to the user with a link to reset password. If email service is no
 - **400 Bad Request**
   - Response Body (JSON):
     - **error** (string): Error message.
+![Screenshot 2023-10-18 at 4 05 39 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/07a20c4c-f171-4c5c-af5f-483c2140a382)
 
 ---
 
@@ -108,6 +111,7 @@ Sends an email to the user with a link to reset password. If email service is no
 - **400 Bad Request**
   - Response Body (JSON):
     - **error** (string): Error message.
+![Screenshot 2023-10-18 at 4 06 48 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/61989e32-7ecc-42ae-b404-4c1dfc2b5e10)
 
 ---
 
@@ -130,6 +134,7 @@ Sends an email to the user with a link to reset password. If email service is no
 - **401 Unauthorized**
   - Response Body (JSON):
     - **error** (string): Error message.
+![Screenshot 2023-10-18 at 4 07 12 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/3279c0d1-2941-4a08-ba1a-b0ce620698f4)
 
 
 ## Getting Started
@@ -201,9 +206,14 @@ Tests can be run using
 ```
 python3 -m pytest
 ```
+![Screenshot 2023-10-18 at 4 07 51 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/3ea3865b-eaf4-4cee-957d-4f5398277e38)
+
+### Troubleshooting
+Please check that you're using Python 3.8.17, I ran into problems using newer versions.  
+Otherwise, please email me at thaddeusleezx@gmail.com :)
 
 ## Future roadmap
 * Add a frontend by refactoring code to have routes and templates that use the API logic
 * Implement a refresh token endpoint instead of requiring user to log in again, will need some level of security such as HttpOnly cookies
-* 
+* Implement proper image uploading instead of image link, using object storages like Amazon S3
 
