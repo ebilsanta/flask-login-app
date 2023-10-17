@@ -1,5 +1,5 @@
 FLASK_APP=loginapp
-SECRET_KEY=
-JWT_SECRET_KEY=
-MAIL_USERNAME=
-MAIL_PASSWORD=<gmail-app-password>
+SECRET_KEY=<your-secret-key-here>
+JWT_SECRET_KEY=<your-jwt-secret-key-here>
+MAIL_USERNAME=<your-gmail-username-here>
+MAIL_PASSWORD=<your-gmail-app-password>
