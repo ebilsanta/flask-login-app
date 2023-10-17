@@ -1,1 +1,5 @@
-FLASK_APP=
+FLASK_APP=loginapp
+SECRET_KEY=
+JWT_SECRET_KEY=
+MAIL_USERNAME=
+MAIL_PASSWORD=<gmail-app-password>
