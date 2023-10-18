@@ -213,8 +213,14 @@ python3 -m pytest
 ![Screenshot 2023-10-18 at 4 07 51 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/3ea3865b-eaf4-4cee-957d-4f5398277e38)
 
 ### Troubleshooting
-Please check that you're using Python 3.8.17, I ran into problems using newer versions.  
-Otherwise, please email me at thaddeusleezx@gmail.com :)
+* Please check that you're using Python 3.8.17, I ran into problems using newer versions.  
+* Check also that your virtual environment is activated
+```
+which python
+```
+should show the path to your virtual environment
+* Restart your IDE if using an integrated terminal  
+* Otherwise, please email me at thaddeusleezx@gmail.com :)
 
 ## Future roadmap
 * Implement a refresh token endpoint instead of requiring user to log in again, will need some level of security such as HttpOnly cookies
