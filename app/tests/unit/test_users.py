@@ -1,8 +1,5 @@
 import os
-from app import db, app
-from app.models import User
-from app.api.errors import bad_request, unauthorized
-from app.api.auth import token_auth
+from app import app
 from flask_jwt_extended import create_access_token
 from datetime import timedelta
 
@@ -30,18 +27,6 @@ def test_login_invalid_data():
     assert response.status_code == 400
     assert response.json['message'] == "must include email and password fields"
 
-# def test_forgot_password(client, mocker):
-#     user = User(email='test@example.com')
-#     db.session.add(user)
-#     db.session.commit()
-
-#     data = {'email': 'test@example.com'}
-
-#     mocker.patch('app.api.routes.send_email')  # Mocking send_email function
-
-#     response = client.post('/api/forgot-password', json=data)
-#     assert response.status_code == 200
-
 def test_forgot_password_user_not_found():
     data = {}
     os.environ['CONFIG_TYPE'] = 'config.TestingConfig'
@@ -64,6 +49,8 @@ def test_me_expired_token():
     data = {'email': 'test@example.com'}
     os.environ['CONFIG_TYPE'] = 'config.TestingConfig'
     app.test = True
+    app.config['JWT_SECRET_KEY'] = 'TEST'
+    
     expiration_time = timedelta(hours=-1)
     with app.test_client() as test_client:
         with app.app_context():

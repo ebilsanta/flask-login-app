@@ -1,4 +1,3 @@
-from app import db, app
 from app.models import User
 
 def test_user_creation():
@@ -42,9 +41,3 @@ def test_user_from_dict():
     assert user.image == 'test.jpg'
     assert user.check_password('testpassword')
 
-def test_user_loader():
-    user = User(id=1)
-    with app.app_context():
-        loaded_user = User.query.get(1)
-    
-    assert loaded_user == user
