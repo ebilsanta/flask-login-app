@@ -1,6 +1,8 @@
 # Flask-login-app
 
-A simple Flask backend with user login APIs
+A simple Flask backend with user login APIs  
+
+Note to grader: I made a small refactoring change past the deadline at 9am, to extract duplicated database logic to a users_service. 
 
 ## Endpoints
 ### Sign Up
@@ -87,6 +89,8 @@ Sends an email to the user with a link to reset password. If email service is no
   - Response Body (JSON):
     - **error** (string): Error message.
 ![Screenshot 2023-10-18 at 4 05 39 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/07a20c4c-f171-4c5c-af5f-483c2140a382)
+
+<img width="1174" alt="Screenshot 2023-10-18 at 9 07 46 AM" src="https://github.com/ebilsanta/flask-login-app/assets/101983505/9991016a-8542-465f-91c6-5d3027fd31c0">
 
 ---
 
@@ -213,7 +217,7 @@ Please check that you're using Python 3.8.17, I ran into problems using newer ve
 Otherwise, please email me at thaddeusleezx@gmail.com :)
 
 ## Future roadmap
-* Add a frontend by refactoring code to have routes and templates that use the API logic
 * Implement a refresh token endpoint instead of requiring user to log in again, will need some level of security such as HttpOnly cookies
 * Implement proper image uploading instead of image link, using object storages like Amazon S3
+* Add test cases for database layer
 
