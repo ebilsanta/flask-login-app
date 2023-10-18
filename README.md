@@ -180,7 +180,7 @@ Install packages from requirements.txt
 pip install -r requirements.txt
 ```
 
-Set up environment variables in .flaskenv.sample and rename it to .flaskenv
+Create a copy of .flaskenv.sample, set up environment variables and rename it to .flaskenv
 ```
 FLASK_APP=loginapp
 SECRET_KEY=<your-secret-key-here>
