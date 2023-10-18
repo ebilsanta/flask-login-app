@@ -193,11 +193,20 @@ MAIL_PASSWORD=<your-gmail-app-password>
 - The MAIL_USERNAME and MAIL_PASSWORD are used to authenticate with your email provider to send emails for the forgot-password endpoint. 
 For Google, you cannot use your raw password and will have to request for an app password from [Google] (https://support.google.com/accounts/answer/185833?hl=en)
 
+Reload shell configuration (I have to do this if not I'll get an error running migrations)
+* for Bash
+```
+source ~/.bashrc
+```
+* for Zsh
+```
+source ~/.zshrc
+```
+
 Run database migrations
 ```
 flask db upgrade
 ```
-**Note**: if running the migrations command gives you an error, try restarting the terminal. You'll have to reactivate the virtual environment.
 
 Start flask app
 ```
