@@ -197,6 +197,7 @@ Run database migrations
 ```
 flask db upgrade
 ```
+**Note**: if running the migrations command gives you an error, try restarting the terminal. You'll have to reactivate the virtual environment.
 
 Start flask app
 ```
