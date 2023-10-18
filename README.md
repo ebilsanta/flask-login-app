@@ -156,7 +156,7 @@ git clone https://github.com/ebilsanta/flask-login-app
 
 Create a virtual environment
 ```
-python3 -m venv .venv
+python3.8 -m venv .venv
 ```
 
 Activate the virtual environment  
