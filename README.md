@@ -7,7 +7,7 @@ Note to grader: I made a small refactoring change past the deadline at 9am, to e
 ## Endpoints
 ### Sign Up
 Creates a new user with given fields
-- **Method**: POST
+- **Method**: `POST`
 - **Endpoint**: `/api/sign-up`
 
 #### Request
@@ -22,7 +22,6 @@ Creates a new user with given fields
 - **image** (string): URL or path to user's profile image.
 
 #### Responses
-
 - **201 Created**
   - Response Body (JSON):
     - **id** (integer): User ID.
@@ -34,14 +33,49 @@ Creates a new user with given fields
 
 - **400 Bad Request**
   - Response Body (JSON):
-    - **error** (string): Error message.
+    - **error**: (string): `Bad Request` 
+    - **message** (string)
+      - `"Must include name, email and password fields"`
+
+- **401 Unauthorized**
+  - Response Body (JSON):
+    - **error** (string): `Unauthorized`
+    - **message** (string)
+      - `"Email address in use"`
+
+#### Sample Request
+```
+curl -i  --location --request POST 'http://localhost:5000/api/sign-up' \
+--header 'Content-Type: application/json' \
+--data-raw '{                         
+    "email": "thaddeuslee3@gmail.com",
+    "name": "thaddeusl",   
+    "password": "abcd1234",
+    "age": 2,   
+    "gender": 0,                        
+    "image": "http://www.image_link.com"
+}
+'
+```
+#### Sample Response
+```
+HTTP/1.1 201 CREATED
+Server: Werkzeug/2.2.0 Python/3.8.17
+Date: Fri, 20 Oct 2023 09:08:03 GMT
+Content-Type: application/json
+Content-Length: 116
+Location: /api/login?id=4
+Connection: close
+
+{"age":2,"email":"thaddeuslee3@gmail.com","gender":0,"id":4,"image":"http://www.image_link.com","name":"thaddeusl"}
+```
 
 ![Screenshot 2023-10-18 at 4 04 00 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/1e531330-0b11-4019-81a8-2965537b444d)
 ---
 
 ### Login
 Authenticates user and returns JWT access token 
-- **Method**: POST
+- **Method**: `POST`
 - **Endpoint**: `/api/login`
 
 #### Request
@@ -59,18 +93,49 @@ Authenticates user and returns JWT access token
 
 - **400 Bad Request**
   - Response Body (JSON):
-    - **error** (string): Error message.
+    - **error**: (string): `Bad Request` 
+    - **message** (string)
+      - `"Must include name, email and password fields"`
 
 - **401 Unauthorized**
   - Response Body (JSON):
-    - **error** (string): Error message.
+    - **error** (string): `Unauthorized`
+    - **message** (string)
+      - `"Email not found"`
+    OR
+      - `"Incorrect password"`
+   
+#### Sample Request
+```
+curl -i --location --request POST 'http://localhost:5000/api/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "thaddeuslee3@gmail.com",
+    "password": "abcd1234"
+}'
+```
+#### Sample Response
+```
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.0 Python/3.8.17
+Date: Fri, 20 Oct 2023 09:11:14 GMT
+Content-Type: application/json
+Content-Length: 312
+Vary: Cookie
+Set-Cookie: session=.eJwlzj0OwjAMQOG7ZGZwEttJepnKv4K1pRPi7lTijW_6PmXPI85n2d7HFY-yv7xsRSyRNZq79oDOkzAFLdsApdpIOwzwBpF3ambE6GFQk32RZ6TXnHovMkjps7ILk_BgtoyQ0JEz0UWww8wVydNw9BFr6aRyQ64zjr8Gy_cHw14yUw.ZTJEMg.HX1pq0tJQXOiiiHcg9q_yyGjfEk; HttpOnly; Path=/
+Connection: close
+
+{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5Nzc5MzA3NCwianRpIjoiZTU0Y2UzYjEtMjJhOC00M2Q2LWI2ZWEtYzJkMWI2YjdkMWI4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InRoYWRkZXVzbGVlM0BnbWFpbC5jb20iLCJuYmYiOjE2OTc3OTMwNzQsImV4cCI6MTY5Nzc5NDI3NH0.FCMA_d-YXfN_C0Teu5B2n312N-KlEJo498LarJaLc5s"}
+```
+
 ![Screenshot 2023-10-18 at 4 05 18 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/2f2078bf-e41d-44d7-873f-acdda255bdad)
+
 
 ---
 
 ### Forgot Password
 Sends an email to the user with a link to reset password. If email service is not set up, it responds with the reset_url in the JSON body instead
-- **Method**: POST
+- **Method**: `POST`
 - **Endpoint**: `/api/forgot-password`
 
 #### Request
@@ -87,7 +152,43 @@ Sends an email to the user with a link to reset password. If email service is no
 
 - **400 Bad Request**
   - Response Body (JSON):
-    - **error** (string): Error message.
+    - **error**: (string): `Bad Request` 
+    - **message** (string)
+      - `"Must include email fields"`
+
+- **401 Unauthorized**
+  - Response Body (JSON):
+    - **error** (string): `Unauthorized`
+    - **message** (string)
+      - `"Email not found"`
+   
+#### Sample Request
+```
+curl -i --location --request POST 'http://localhost:5000/api/forgot-password' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "thaddeusleezx@gmail.com"
+}'
+```
+
+#### Sample Response 
+* Email service set up
+```
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.0 Python/3.8.17
+Date: Fri, 20 Oct 2023 09:15:10 GMT
+Content-Type: application/json
+Content-Length: 25
+Connection: close
+
+{"message":"email sent"}
+```
+
+* Sample reset link with reset_token
+```
+http://localhost:5000/reset-password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5Nzc5MzgwOCwianRpIjoiMTI4NWRjOTMtNTkzZC00NmZhLTgwZGItMTNmNDI1NjgwNWFmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InRoYWRkZXVzbGVlenhAZ21haWwuY29tIiwibmJmIjoxNjk3NzkzODA4LCJleHAiOjE2OTc3OTUwMDh9._wPVgTVbKlPxeIgFdIq0d2F6UAW0EZWejSx33Otgi7U
+```
+
 ![Screenshot 2023-10-18 at 4 05 39 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/07a20c4c-f171-4c5c-af5f-483c2140a382)
 
 <img width="1174" alt="Screenshot 2023-10-18 at 9 07 46 AM" src="https://github.com/ebilsanta/flask-login-app/assets/101983505/9991016a-8542-465f-91c6-5d3027fd31c0">
@@ -96,7 +197,7 @@ Sends an email to the user with a link to reset password. If email service is no
 
 ### Reset Password
 
-- **Method**: POST
+- **Method**: `POST`
 - **Endpoint**: `/api/reset-password`
 
 #### Request
@@ -114,14 +215,44 @@ Sends an email to the user with a link to reset password. If email service is no
 
 - **400 Bad Request**
   - Response Body (JSON):
-    - **error** (string): Error message.
-![Screenshot 2023-10-18 at 4 06 48 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/61989e32-7ecc-42ae-b404-4c1dfc2b5e10)
+    - **error**: (string): `Bad Request` 
+    - **message** (string)
+      - `"Must include password and reset_token fields"`
 
+- **401 Unauthorized**
+  - Response Body (JSON):
+    - **error** (string): `Unauthorized`
+    - **message** (string)
+      - `"Email not found"`
+   
+      
+![Screenshot 2023-10-18 at 4 06 48 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/61989e32-7ecc-42ae-b404-4c1dfc2b5e10)
+#### Sample Request
+```
+curl -i --location --request POST 'http://localhost:5000/api/reset-password' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "password": "newpassword",
+    "reset_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5Nzc5MzgwOCwianRpIjoiMTI4NWRjOTMtNTkzZC00NmZhLTgwZGItMTNmNDI1NjgwNWFmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InRoYWRkZXVzbGVlenhAZ21haWwuY29tIiwibmJmIjoxNjk3NzkzODA4LCJleHAiOjE2OTc3OTUwMDh9._wPVgTVbKlPxeIgFdIq0d2F6UAW0EZWejSx33Otgi7U"
+}'
+```
+
+#### Sample Response
+```
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.0 Python/3.8.17
+Date: Fri, 20 Oct 2023 09:28:19 GMT
+Content-Type: application/json
+Content-Length: 44
+Connection: close
+
+{"message":"password changed successfully"}
+```
 ---
 
 ### Get Current User (Me)
 
-- **Method**: GET
+- **Method**: `GET`
 - **Endpoint**: `/api/me`
 
 #### Request
@@ -140,6 +271,23 @@ Sends an email to the user with a link to reset password. If email service is no
     - **error** (string): Error message.
 ![Screenshot 2023-10-18 at 4 07 12 AM](https://github.com/ebilsanta/flask-login-app/assets/101983505/3279c0d1-2941-4a08-ba1a-b0ce620698f4)
 
+#### Sample Request
+```
+curl -i --location --request GET 'http://localhost:5000/api/me' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5Nzc5NDIzOCwianRpIjoiOGJkMzFlZWEtMDFhOS00MDMzLTk0MjItMGJmZmFjNTk5YjA1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InRoYWRkZXVzbGVlM0BnbWFpbC5jb20iLCJuYmYiOjE2OTc3OTQyMzgsImV4cCI6MTY5Nzc5NTQzOH0.s1YqSw_y8ZAXR9_DpyHKHv-0gGam9DbSTo7izZzBXQc'
+```
+
+#### Sample Response
+```
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.0 Python/3.8.17
+Date: Fri, 20 Oct 2023 09:31:30 GMT
+Content-Type: application/json
+Content-Length: 116
+Connection: close
+
+{"age":2,"email":"thaddeuslee3@gmail.com","gender":0,"id":4,"image":"http://www.image_link.com","name":"thaddeusl"}
+```
 
 ## Getting Started
 
