@@ -14,12 +14,12 @@ def sign_up():
     required_fields = ['name', 'email', 'password', 'age', 'gender', 'image']
 
     if not all(field in data for field in required_fields):
-        return bad_request('must include name, email, password, age, gender, image fields')
+        return bad_request('Must include name, email, password, age, gender, image fields')
 
     try:
         user = save_new_user(data)
     except UserAlreadyExists as e:
-        return bad_request('please use a different email address')
+        return unauthorized('Email address in use')
 
     response = jsonify(user.to_dict())
     response.status_code = 201
@@ -30,7 +30,7 @@ def sign_up():
 def login():
     data = request.get_json() or {}
     if not 'email' in data or not 'password' in data:
-        return bad_request('must include email and password fields')
+        return bad_request('Must include email and password fields')
 
     email = data['email']
     password = data['password']
@@ -38,10 +38,10 @@ def login():
     user = get_user_by_email(email)
 
     if not user:
-        return unauthorized('user not found')
+        return unauthorized('Email not found')
 
     if not user.check_password(password):
-        return unauthorized('incorrect password')
+        return unauthorized('Incorrect password')
     
     login_user(user)
     access_token = create_access_token(identity=user.email)
@@ -52,16 +52,16 @@ def login():
     
 @bp.route('/forgot-password', methods=['POST'])
 def forgot_password():
-    url = request.host_url + 'api/reset-password/'
+    url = request.host_url + 'reset-password/'
     data = request.get_json() or {}
     if not 'email' in data:
-        return bad_request('must include email field')
+        return bad_request('Must include email field')
     email = data['email']
 
     user = get_user_by_email(email)
 
     if not user:
-        return bad_request("email not found")
+        return unauthorized("Email not found")
     
     reset_token = create_access_token(identity=user.email)
 
@@ -77,9 +77,9 @@ def forgot_password():
             recipients=[email],
             html_body=render_template('email/reset_password.html', user=user.name, url = reset_url)
         )
-        response = jsonify(message="email sent")
+        response = jsonify(message="Email sent")
     # in case email isn't set up properly
-    except SMTPAuthenticationError as e:
+    except Exception as e:
         response = jsonify(
             reset_url = reset_url
         )
@@ -92,16 +92,16 @@ def forgot_password():
 def reset_password():
     data = request.get_json() or {}
     if not 'password' in data or not 'reset_token' in data:
-        return bad_request('must include password and reset_token fields')
+        return bad_request('Must include password and reset_token fields')
     reset_token = data['reset_token']
     password = data['password']
     user_email = decode_token(reset_token)['sub']
     try:
         user = update_user_password(user_email, password)
     except UserNotFound:
-        return bad_request('user not found')
+        return unauthorized('Email not found')
 
-    response = jsonify(message="password changed successfully")
+    response = jsonify(message="Password changed successfully")
     response.status_code = 200
     return response
 
